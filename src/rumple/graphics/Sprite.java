@@ -8,8 +8,8 @@ public class Sprite {
 	public int[] pixels;
 	private SpriteSheet sheet;
 
-	public static Sprite dungeonCobble = new Sprite(32, 0, 0, SpriteSheet.dungoen_tiles);
-	public static Sprite voidSprite = new Sprite(32, 0);
+	public static Sprite dungeonCobble = new Sprite(16, 0, 0, SpriteSheet.dungoen_tiles);
+	public static Sprite voidSprite = new Sprite(16, 0);
 	
 	public Sprite(int size, int x, int y, SpriteSheet sheet) {
 		SIZE = size;

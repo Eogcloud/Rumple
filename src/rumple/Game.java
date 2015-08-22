@@ -17,22 +17,22 @@ import rumple.level.RandomLevel;
 public class Game extends Canvas implements Runnable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public static int width = 300;
-	public static int height = width * 16 / 9;
+	public static int height = width / 16 * 9;
 	public static int scale = 3;
 	public boolean running = false;
-	
+
 	private Thread thread;
 	private JFrame frame;
 	private Keyboard key;
 	private Level level;
-	
+
 	private Screen screen;
-	
+
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
-	
+
 	public Game() {
 		Dimension size = new Dimension(width * scale, height * scale);
 		setPreferredSize(size);
@@ -41,7 +41,7 @@ public class Game extends Canvas implements Runnable {
 		key = new Keyboard();
 		frame = new JFrame();
 		level = new RandomLevel(64, 64);
-		
+
 		addKeyListener(key);
 	}
 
@@ -90,6 +90,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	int xOff, yOff;
+
 	public void update() {
 		key.update();
 		if (key.up) {
@@ -113,7 +114,7 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 		screen.clear();
-		screen.renderTile(xOff, yOff);
+		level.render(xOff, yOff, screen);
 
 		for (int i = 0; i < pixels.length; i++) {
 			this.pixels[i] = screen.pixels[i];
