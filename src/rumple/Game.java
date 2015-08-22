@@ -9,6 +9,7 @@ import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
 
+import rumple.entity.mob.Player;
 import rumple.graphics.Screen;
 import rumple.input.Keyboard;
 import rumple.level.Level;
@@ -27,6 +28,7 @@ public class Game extends Canvas implements Runnable {
 	private JFrame frame;
 	private Keyboard key;
 	private Level level;
+	private Player player;
 
 	private Screen screen;
 
@@ -41,7 +43,7 @@ public class Game extends Canvas implements Runnable {
 		key = new Keyboard();
 		frame = new JFrame();
 		level = new RandomLevel(64, 64);
-
+		player = new Player(key);
 		addKeyListener(key);
 	}
 
@@ -89,22 +91,9 @@ public class Game extends Canvas implements Runnable {
 		stop();
 	}
 
-	int xOff, yOff;
-
 	public void update() {
 		key.update();
-		if (key.up) {
-			yOff--;
-		}
-		if (key.down) {
-			yOff++;
-		}
-		if (key.left) {
-			xOff--;
-		}
-		if (key.right) {
-			xOff++;
-		}
+		player.update();
 	}
 
 	public void render() {
@@ -114,7 +103,10 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 		screen.clear();
-		level.render(xOff, yOff, screen);
+		int xScroll = player.x - screen.width / 2;
+		int yScroll = player.y - screen.height / 2;
+		level.render(xScroll, yScroll, screen);
+		player.render(screen);
 
 		for (int i = 0; i < pixels.length; i++) {
 			this.pixels[i] = screen.pixels[i];
